@@ -1,0 +1,14 @@
+title: Klaslab
+description: "Mijn reis (met hobbels) als natuurkundedocent die met AI in de klas wil werken."
+url: https://klaslab.nl
+author: Stefan
+locale: nl_NL
+
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Optioneel, maar handig:
+show_excerpts: true
+header_pages:
+  - about.md
