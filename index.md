@@ -3,6 +3,5 @@ layout: home
 title: Blog
 ---
 
-Welkom op **Klaslab**. Hier schrijf ik eerlijk over mijn reis als (startende) leraar
-natuurkunde die met **AI** wil gaan werken: wat lukt, wat niet, en wat ik onderweg leer.
-Hieronder vind je de nieuwste posts.
+Welkom? Ik geef natuurkundeles op de middelbare school en experimenteer met AI in en om de klas. 
+Op deze site deel ik mijn ervaringen in de vorm van blogs. Geniet ervan en laat van je horen.
