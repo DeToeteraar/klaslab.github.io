@@ -19,6 +19,7 @@
       --kl-muted:#475569;
       --kl-shadow:0 10px 24px rgba(15,23,42,.08);
       --kl-radius:6px;
+      --kl-nav-divider-h:12px; /* hoogte van de lichtband onder de navbar */
       --kl-nav-pad-y: .95rem;
       --kl-scroll-offset: 96px;
     }
@@ -37,19 +38,45 @@
     /* Navbar (dark, CarperLab-like) */
     .kl-navbar{
       background:#111417 !important;
-      border-bottom:1px solid rgba(255,255,255,.12);
+      /* No border-bottom — keep the light divider as the pseudo-element only (matches KarperLab) */
+      border-bottom:0;
       padding-top:var(--kl-nav-pad-y);
       padding-bottom:var(--kl-nav-pad-y);
+      position:relative;
+      z-index:10;
     }
-.kl-navbar-divider{
-  height:10px;
-  background:var(--kl-bg);
-}
+    /* Lichtband onder de navbar — als pseudo-element zodat het netjes over secties heen valt */
+    .kl-navbar::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(-1 * var(--kl-nav-divider-h));
+      height: var(--kl-nav-divider-h);
+      background: linear-gradient(
+        to bottom,
+        rgba(245, 242, 234, 0.95),
+        rgba(245, 242, 234, 0.55)
+      );
+      box-shadow: 0 10px 22px rgba(17,20,23,0.18);
+      pointer-events: none;
+    }
     .kl-navbar .nav-link{
       color:rgba(248,250,252,.92);
       font-weight:600;
     }
     .kl-navbar .nav-link:hover{color:var(--kl-accent)}
+    /* Navbar brand: match KarperLab exactly (remove default padding that makes the bar taller) */
+    .navbar .navbar-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
     .navbar-toggler{border-color:rgba(255,255,255,.25)}
     .navbar-toggler-icon{filter:invert(1)}
 
@@ -65,9 +92,9 @@
     }
 
     /* Logo sizing (requested larger) */
-    .navbar-brand img{height:70px;width:auto;display:block}
+    .navbar-brand img{height:40px;width:auto;display:block}
     @media (min-width: 992px){
-      .navbar-brand img{height:80px}
+      .navbar-brand img{height:64px}
     }
 
     /* Accent button (Bootstrap-friendly) */
@@ -125,10 +152,11 @@
       background:var(--kl-paper);
       border:1px solid var(--kl-border);
       border-radius:var(--kl-radius);
-      padding:18px;
+      padding:1.5rem; /* gelijk aan KarperLab p-4 */
       box-shadow:0 12px 28px rgba(15,23,42,.12);
       color:var(--kl-text);
-      max-width:380px;
+      width:100%;
+      max-width:none;
       transition: transform 160ms ease, box-shadow 160ms ease;
     }
     .kl-offer:hover,
@@ -136,11 +164,11 @@
       transform: translateY(-2px);
       box-shadow:0 22px 48px rgba(15,23,42,.14);
     }
-    .kl-offer__title{font-weight:800;font-size:1.1rem;margin-bottom:4px}
+    .kl-offer__title{margin-bottom:4px}
     .kl-offer__meta{color:var(--kl-muted);font-size:.95rem;margin-bottom:10px}
     .kl-offer__price{margin:10px 0 8px}    /* Zorg voor ruimte tussen prijs en CTA-button; mb-0 van Bootstrap overschrijft marges op de prijs */
     .kl-offer .btn{margin-top:18px}    .kl-offer__sub{color:var(--kl-muted);font-size:.9rem;font-weight:700}
-    .kl-offer__foot{font-size:.85rem;color:var(--kl-muted)}
+    .kl-offer__foot{font-size:.75rem;color:var(--kl-muted)}
 
     footer{
       background:var(--kl-paper);
@@ -173,14 +201,13 @@
       </div>
     </div>
   </nav>
-  <div class="kl-navbar-divider" aria-hidden="true"></div>
 
   <!-- HERO -->
-  <section id="hero" class="kl-section kl-section--dark">
+  <section id="hero" class="kl-section kl-section--dark" style="padding-top: calc(3rem + var(--kl-nav-divider-h));">
     <div class="container">
       <div class="row g-4 align-items-start">
-        <div class="col-12 col-lg-7">
-          <h1 class="fw-bold" style="letter-spacing:-0.01em;">Standaardwerk dat rust geeft in je vaksectie</h1>
+        <div class="col-12 col-lg-8">
+          <h1 class="fw-bold" style="letter-spacing:-0.01em;">Standaardwerk = rust in je sectie</h1>
           <p class="text-muted mb-3">Voor vaksecties die toe zijn aan één duidelijke werkwijze: minder gedoe, meer voorspelbaarheid.</p>
 
           <p class="text-muted">
@@ -191,9 +218,9 @@
           <a class="btn btn-light" href="#kennismaking" style="border-radius:var(--kl-radius);">Kennismaking aanvragen</a>
         </div>
 
-        <div class="col-12 col-lg-5 d-flex justify-content-lg-end">
+        <div class="col-12 col-lg-4 d-flex justify-content-lg-end">
           <div class="kl-offer" aria-label="Aanbod Teamworkshop Standaardwerk">
-            <div class="kl-offer__title">Teamworkshop Standaardwerk</div>
+            <h2 class="h5 mb-2 kl-offer__title">Teamworkshop Standaardwerk</h2>
 
             <p class="mb-2" style="color: var(--kl-muted);">Procesoverzicht, SOP’s, templates en duidelijke afspraken. Eén gedeelde werkwijze voor de hele sectie.</p>
 
@@ -214,24 +241,27 @@
       <div class="row g-4">
         <div class="col-12 col-lg-6">
           <div class="kl-card">
-            <h2 class="h5 fw-bold mb-2">Wat je krijgt</h2>
+            <h2 class="h5 fw-bold mb-2">Wat er aan het einde ligt</h2>
+            <p class="text-muted mb-2">Geen rapport. Wel een gedeelde, bruikbare set afspraken en materialen.</p>
             <ul class="mb-0">
-              <li>Procesoverzicht van de sectie: wie doet wat, wanneer.</li>
-              <li>2–4 SOP’s als checklists voor terugkerende taken.</li>
-              <li>Templates als gedeelde basis voor les, toets en practicum.</li>
-              <li>Afspraken over eigenaarschap en onderhoud.</li>
+              <li><strong>Procesoverzicht</strong> van de sectie: wie doet wat, wanneer en met welke standaard.</li>
+              <li><strong>SOP’s</strong> als checklists voor terugkerende taken (bijv. toetsing, inhaal, practicum).</li>
+              <li><strong>Templates</strong> als gedeelde basis (lesopzet, toetsopbouw, practicumformat).</li>
+              <li><strong>Werkafspraken</strong> over eigenaarschap, onderhoud en onboarding van nieuwe collega’s.</li>
             </ul>
           </div>
         </div>
 
         <div class="col-12 col-lg-6">
           <div class="kl-card">
-            <h2 class="h5 fw-bold mb-2">Wat het oplevert</h2>
+            <h2 class="h5 fw-bold mb-2">Wat je in de praktijk merkt</h2>
+            <p class="text-muted mb-2">Het effect zit vooral in minder ruis en minder opnieuw uitvinden.</p>
             <ul class="mb-0">
-              <li>Minder afstemming en minder ad-hoc beslissingen.</li>
-              <li>Sneller voorbereiden en consistenter uitvoeren.</li>
-              <li>Makkelijker samenwerken en collega’s inwerken.</li>
-              <li>Rust in drukke weken zoals toets- en rapportmomenten.</li>
+              <li>Minder afstemming omdat basiskeuzes vooraf vastliggen.</li>
+              <li>Sneller voorbereiden door herbruikbare formats en checklists.</li>
+              <li>Consistentere uitvoering binnen het team, ook bij vervanging.</li>
+              <li>Continue verbetering: als je de standaard samen aanscherpt, werkt iedereen direct met de nieuwste werkwijze.</li>
+              <li>Rust in piekweken (toetsen, inhaal, rapport) door een vaste route.</li>
             </ul>
           </div>
         </div>
@@ -244,58 +274,60 @@
     <div class="container">
       <div class="kl-card">
         <h2 class="h5 fw-bold mb-2">Hoe het werkt</h2>
+        <p class="text-muted mb-3">In een korte cyclus maken we keuzes expliciet en leggen we ze vast in formats die je direct gebruikt.</p>
+
         <div class="row g-3">
           <div class="col-12 col-md-4">
             <div class="text-muted"><strong>1.</strong> Kennismaking</div>
-            <div class="text-muted small">Doel, scope, teamgrootte en grootste knelpunten.</div>
+            <div class="text-muted small">We prikken focus: welke 1–2 processen leveren nu het meeste op.</div>
           </div>
           <div class="col-12 col-md-4">
             <div class="text-muted"><strong>2.</strong> Teamworkshop</div>
-            <div class="text-muted small">Procesoverzicht, SOP’s en templates samen uitwerken.</div>
+            <div class="text-muted small">We bouwen het procesoverzicht en werken SOP’s en templates uit (samen, in jullie taal).</div>
           </div>
           <div class="col-12 col-md-4">
             <div class="text-muted"><strong>3.</strong> Borging</div>
-            <div class="text-muted small">Beheer, versie en onderhoudsritme afspreken.</div>
+            <div class="text-muted small">We spreken eigenaarschap af: wie onderhoudt, hoe versies lopen en wanneer je bijstuurt.</div>
           </div>
         </div>
+
+        <hr style="border-color: var(--kl-border); opacity: .35;" class="my-3">
+
+        <p class="text-muted small mb-0"><strong>Voorbereiding (optioneel):</strong> stuur één voorbeeld mee van een toets/les/practicum die jullie vaak doen. Dan kunnen we sneller standaardiseren.</p>
       </div>
     </div>
   </section>
 
-  <!-- PRIJZEN -->
-  <section id="prijzen" class="kl-section kl-section--light">
-    <div class="container">
-      <div class="kl-card">
-        <h2 class="h5 fw-bold mb-2">Prijsindicatie</h2>
-        <p class="text-muted mb-2"><strong>Teamworkshop Standaardwerk (vaksectie):</strong> €1.295</p>
-        <p class="text-muted mb-0"><strong>Schooltraject bij opschaling:</strong> vanaf €5.995</p>
-      </div>
-    </div>
+  <!-- PRIJZEN (bewust weggelaten; prijs staat in de aanbodkaart) -->
+  <section id="prijzen" class="kl-section kl-section--light d-none" aria-hidden="true">
+    <div class="container"></div>
   </section>
 
   <!-- KENNISMAKING -->
   <section id="kennismaking" class="kl-section kl-section--dark">
     <div class="container">
       <div class="row g-4 align-items-start">
-        <div class="col-12 col-lg-7">
+        <div class="col-12">
           <div class="kl-card">
             <h2 class="h5 fw-bold mb-2">Kennismaking aanvragen</h2>
-            <p class="text-muted mb-3">Klik op de knop. De mail wordt alvast ingevuld met de juiste vragen.</p>
+            <p class="text-muted mb-3">Laagdrempelig: stuur een korte mail met drie dingen. Dan plannen we een kennismaking.</p>
 
             <a
               class="btn btn-kl-accent"
               style="border-radius:var(--kl-radius);"
-              href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Teamworkshop%20Standaardwerk&body=Hoi%2C%0A%0AIk%20wil%20graag%20een%20kennismaking%20aanvragen%20voor%20de%20Teamworkshop%20Standaardwerk.%0A%0ASchool%20(plaats%2Fregio)%3A%20%5Bvul%20in%5D%0ASchooltype%20%2B%20leerjaarband%3A%20%5Bvul%20in%5D%0ATeamgrootte%20vaksectie%3A%20%5Bvul%20in%5D%0AGrootste%20pijnpunt%20(1%20zin)%3A%20%5Bvul%20in%5D%0AHoofddoel%20(kies%201)%3A%20sneller%20werken%20%2F%20consistentie%20%2F%20onboarding%20%2F%20rust%20in%20toetsweken%0APlanning%20(periode)%3A%20%5Bvul%20in%5D%0AVoorkeur%20vorm%3A%20online%20kennismaking%20%2F%20incompany%0A%0AAlvast%20dank%21"
+              href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Teamworkshop%20Standaardwerk&body=Hoi%2C%0A%0AIk%20wil%20graag%20een%20kennismaking%20aanvragen%20voor%20de%20Teamworkshop%20Standaardwerk.%0A%0A1)%20School%20(%2F%20plaats%20of%20regio)%3A%20%5Bvul%20in%5D%0A2)%20Teamgrootte%20vaksectie%3A%20%5Bvul%20in%5D%0A3)%20Doel%20%2B%20waarom%20(2%E2%80%933%20zinnen)%3A%20%5Bvul%20in%5D%0A%0AAlvast%20dank%21"
             >Mail voor de kennismaking</a>
 
-            <p class="text-muted small mb-0" style="margin-top:10px;">Geen documenten nodig voor de kennismaking. Alleen bovenstaande punten.</p>
-          </div>
-        </div>
+            <div class="mt-3">
+              <div class="text-muted small mb-1"><strong>Stuur dit mee:</strong></div>
+              <ul class="small mb-0">
+                <li>School en plaats/regio</li>
+                <li>Teamgrootte van de vaksectie</li>
+                <li>Wat jullie willen bereiken en waarom (2–3 zinnen)</li>
+              </ul>
+            </div>
 
-        <div class="col-12 col-lg-5">
-          <div class="kl-card">
-            <h2 class="h6 fw-bold mb-2">Snel check</h2>
-            <p class="text-muted small mb-0">Past dit bij jullie als er ruis zit op toetsing, inhaal, practicum of lesstructuur en je één werkwijze wilt afspreken.</p>
+            <p class="text-muted small mb-0" style="margin-top:10px;">Geen documenten nodig. Dit is genoeg om te starten.</p>
           </div>
         </div>
       </div>
