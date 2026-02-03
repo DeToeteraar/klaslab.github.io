@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KlasLab – Standaardwerk voor vaksecties</title>
+
+  <!-- Bootstrap CSS (for KarperLab-like layout/typography) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --anth:#1f2937;           /* antraciet */
+      --cream:#f6f1e7;          /* crème */
+      --paper:#ffffff;          /* kaart/wit */
+      --klaslab-blue:#DCEBFF;      /* lichtblauw voor CTA */
+      --klaslab-green:#16C3A5;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:rgba(15,23,42,.12);
+      --shadow:0 10px 24px rgba(15,23,42,.08);
+      --radius:14px;
+      --kl-nav-divider-h: 12px;      /* thickness of the light band under the navbar */
+      --kl-nav-pad-y: 0.95rem;       /* navbar vertical padding */
+      --kl-nav-scroll-offset: 140px; /* anchor offset */
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.6;
+      color:var(--text);
+      background:var(--cream);
+    }
+    a{color:inherit}
+    /* Improve anchor jumps (KarperLab pattern) */
+    section { scroll-margin-top: var(--kl-nav-scroll-offset); }
+
+    /* Navbar: solid dark background + light band divider (KarperLab pattern) */
+    .kl-navbar{
+      background: var(--anth) !important;
+      position: relative;
+      z-index: 10;
+      padding-top: var(--kl-nav-pad-y);
+      padding-bottom: var(--kl-nav-pad-y);
+    }
+    .kl-navbar::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom: calc(-1 * var(--kl-nav-divider-h));
+      height: var(--kl-nav-divider-h);
+      background: linear-gradient(
+        to bottom,
+        rgba(246, 241, 231, 0.95),
+        rgba(246, 241, 231, 0.55)
+      );
+      box-shadow: 0 10px 22px rgba(17, 20, 23, 0.18);
+      pointer-events:none;
+    }
+
+    /* Responsive logo sizing (KarperLab pattern) */
+    .navbar-brand img{ height:40px; width:auto; }
+    @media (min-width: 992px){ .navbar-brand img{ height:64px; } }
+
+    /* Navbar link + toggler styling (KarperLab pattern) */
+    .navbar .nav-link{ color: rgba(248,250,252,0.92); }
+    .navbar .nav-link:hover{ color:#ffffff; }
+    .navbar-toggler{ border-color: rgba(255,255,255,0.30); }
+    .navbar-toggler-icon{ filter: invert(1); }
+
+    /* Mobile menu panel */
+    @media (max-width: 991.98px){
+      .navbar .navbar-collapse{
+        background: rgba(31, 41, 55, 0.96);
+        border-radius: 14px;
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 12px 30px rgba(17, 20, 23, 0.25);
+      }
+    }
+
+    /* KlasLab accent button in navbar (KarperLab CTA structure) */
+    .btn-accent{
+      --bs-btn-color: #0f172a;
+      --bs-btn-bg: var(--klaslab-green);
+      --bs-btn-border-color: var(--klaslab-green);
+      --bs-btn-hover-color: #0f172a;
+      --bs-btn-hover-bg: #12b49a;
+      --bs-btn-hover-border-color: #12b49a;
+      box-shadow: 0 8px 20px rgba(17, 20, 23, 0.12);
+      border-radius: 14px;
+      font-weight: 800;
+      padding: .6rem 1rem;
+    }
+
+    /* Match KarperLab container feel (Bootstrap container handles widths; we only tune vertical padding) */
+    .container{padding-top:28px;padding-bottom:28px}
+
+    h1,h2,h3,.fw-bold{letter-spacing:-0.01em}
+    h1{font-size:2.15rem;line-height:1.15;margin:0 0 10px;font-weight:800}
+    h2{font-size:1.25rem;margin:0 0 10px;font-weight:800}
+    p{margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .small{font-size:.92rem}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid var(--border);
+      border-radius:999px;padding:6px 10px;
+      font-size:.9rem;color:var(--muted);white-space:nowrap;
+      background:rgba(255,255,255,.65);
+      backdrop-filter:saturate(120%) blur(2px);
+    }
+    .price{font-weight:900;color:var(--text)}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:11px 14px;border-radius:12px;border:1px solid var(--border);
+      text-decoration:none;color:var(--text);background:var(--paper);
+      box-shadow:0 2px 10px rgba(15,23,42,.06);
+    }
+    .btn.primary{
+      background:var(--text);
+      color:#fff;
+      border-color:var(--text);
+      box-shadow:none;
+    }
+    .grid-2{display:grid;grid-template-columns:1.25fr .95fr;gap:16px;align-items:start}
+    .grid-2.even{grid-template-columns:1fr 1fr}
+    @media (max-width:900px){.grid-2,.grid-2.even{grid-template-columns:1fr}}
+    .card{
+      background:var(--paper);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .section{padding:56px 0}
+    .section.light{background:var(--cream)}
+    .section.dark{background:var(--anth);color:#f8fafc}
+    .section.dark .muted{color:rgba(248,250,252,.72)}
+    .section.dark .pill{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:rgba(248,250,252,.78)}
+    .section.dark .price{color:#f8fafc}
+    .section.dark .card{background:#ffffff;color:var(--text);border-color:rgba(15,23,42,.10)}
+    ul{margin:8px 0 0 18px}
+    li{margin:0 0 6px}
+
+    /* image placeholders */
+    .media{
+      border-radius:var(--radius);
+      border:1px dashed rgba(15,23,42,.22);
+      background:rgba(255,255,255,.6);
+      padding:14px;
+      min-height:210px;
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;
+      color:rgba(15,23,42,.65);
+    }
+    .section.dark .media{
+      background:rgba(255,255,255,.06);
+      border-color:rgba(255,255,255,.22);
+      color:rgba(248,250,252,.72);
+    }
+    .media strong{color:inherit}
+    footer{background:var(--paper);border-top:1px solid var(--border)}
+
+    .offer-card{
+      background:var(--paper);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 12px 28px rgba(15,23,42,.12);
+      max-width:360px;
+      color:var(--text);
+    }
+    .offer-title{font-weight:800;font-size:1.1rem;margin-bottom:6px}
+    .offer-meta{color:var(--muted);font-size:.95rem;margin-bottom:10px}
+    .offer-price{font-size:1.8rem;font-weight:900;margin:10px 0 2px}
+    .offer-sub{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+    .offer-btn{
+      display:block;
+      text-align:center;
+      padding:12px;
+      border-radius:12px;
+      background:var(--klaslab-green);
+      color:#0f172a;
+      font-weight:800;
+      text-decoration:none;
+      margin-bottom:8px;
+      border:1px solid rgba(15,23,42,.10);
+    }
+    .offer-btn:hover{
+      filter:brightness(0.98);
+    }
+    .offer-foot{font-size:.85rem;color:var(--muted)}
+
+    .offer-plus{display:grid;gap:6px;margin:8px 0 10px}
+    .offer-plus div{font-size:.95rem}
+  </style>
+</head>
+
+<body>
+
+  <div id="top" aria-hidden="true"></div>
+
+  <nav class="navbar navbar-expand-lg kl-navbar">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#top" aria-label="KlasLab home">
+        <img
+          src="assets/image/klaslab-logo.svg"
+          alt="KlasLab logo"
+          class="d-block"
+        >
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#aanbod">Aanbod</a></li>
+          <li class="nav-item"><a class="nav-link" href="#werkwijze">Werkwijze</a></li>
+          <li class="nav-item"><a class="nav-link" href="#prijzen">Prijzen</a></li>
+          <li class="nav-item"><a class="btn btn-accent ms-lg-3" href="#kennismaking">Kennismaking aanvragen</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="section dark">
+    <div class="container grid-2">
+      <div>
+        <h1>Standaardwerk dat rust geeft in je vaksectie</h1>
+        <p class="muted">Voor vaksecties die toe zijn aan één duidelijke werkwijze: minder gedoe, meer voorspelbaarheid.</p>
+
+
+        <p class="small muted" style="margin-top:8px;">
+          Ik help vaksecties om hun dagelijkse werk te structureren: processen helder krijgen, SOP’s voor terugkerende taken,
+          en praktische sjablonen voor lessen en toetsen. Het resultaat is één gedeelde werkwijze die tijd bespaart en samenwerking versterkt.
+        </p>
+
+        <div class="btns">
+          <a class="btn primary" href="#kennismaking">Kennismaking aanvragen</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="offer-card" aria-label="Aanbod Teamworkshop Standaardwerk">
+          <div class="offer-title">Teamworkshop Standaardwerk</div>
+          <div class="offer-meta">Voor vaksecties • procesoverzicht + templates + SOP's + afspraken</div>
+
+          <div class="offer-price">€1.295 <span class="offer-sub">introductieprijs</span></div>
+
+          <a class="offer-btn" href="#kennismaking">Kennismaking aanvragen</a>
+
+          <div class="offer-foot">Schooltraject: schoolbreed traject mogelijk vanaf €5.995</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AANBOD -->
+  <section id="aanbod" class="section light">
+    <div class="container grid-2 even">
+      <div class="card">
+        <h2>Wat je krijgt</h2>
+        <ul>
+          <li>Procesoverzicht van de sectie (wat doen we wanneer, met wie).</li>
+          <li>2–4 SOP’s (checklists) voor de grootste terugkerende taken.</li>
+          <li>Templates als gedeelde basis (toetsopbouw, les-/slide-structuur, practicumformat).</li>
+          <li>Afspraken over onderhoud, eigenaarschap en onboarding.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Waar het vaak het meeste oplevert</h2>
+        <ul>
+          <li>Toetsing: maken, afnemen, nakijken, normeren, terugkoppelen.</li>
+          <li>Inhaaltoetsen: planning, regels, communicatie en opvolging.</li>
+          <li>Practicum: voorbereiding, veiligheid, materiaal en opruimroutines.</li>
+          <li>Lesvoorbereiding: consistente opbouw en overdraagbaarheid.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container" style="margin-top:14px;">
+      <div class="media" aria-label="Beeld placeholder deliverables">
+        <div>
+          <strong>Beeld (deliverables)</strong><br>
+          Foto/visual van checklist, sjabloon of “proceskaart” op papier/whiteboard.<br>
+          Bestand: <span class="small">assets/img/deliverables.jpg</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WERKWIJZE -->
+  <section id="werkwijze" class="section dark">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Werkwijze</h2>
+        <ul>
+          <li><strong>Kennismaking online:</strong> doel, scope, teamgrootte, grootste knelpunten.</li>
+          <li><strong>Sectiesessie(s):</strong> procesoverzicht + SOP’s + templates samen uitwerken.</li>
+          <li><strong>Borging:</strong> eigenaarschap, versiebeheer en onderhoudsritme afspreken.</li>
+        </ul>
+        <p class="small muted" style="margin-top:10px;">
+          Standaardwerk is een basis, geen keurslijf: er blijft ruimte voor docentstijl.
+        </p>
+      </div>
+
+      <div class="media" aria-label="Beeld placeholder workshop">
+        <div>
+          <strong>Beeld (workshop)</strong><br>
+          Docenten/team dat samen werkt (post-its, whiteboard, overleg).<br>
+          Bestand: <span class="small">assets/img/workshop.jpg</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIJZEN -->
+  <section id="prijzen" class="section light">
+    <div class="container grid-2 even">
+      <div class="card">
+        <h2>Introductie – vaksectie</h2>
+        <p class="muted small">Compact traject om in één sectie standaardwerk neer te zetten.</p>
+        <ul>
+          <li>Procesoverzicht + 2–4 SOP’s.</li>
+          <li>Templates als gedeelde basis.</li>
+          <li>Afspraak over onderhoud en onboarding.</li>
+        </ul>
+        <p class="pill" aria-label="Prijs introductie"><span class="price">€1.295</span> <span class="muted">indicatie</span></p>
+      </div>
+
+      <div class="card">
+        <h2>Uitgebreid – schoolbreed</h2>
+        <p class="muted small">Alleen als het in één sectie aantoonbaar werkt en jullie willen opschalen.</p>
+        <ul>
+          <li>Uitrol per sectie (zelfde aanpak, per team).</li>
+          <li>Kleine set schoolbrede basisafspraken waar dat helpt.</li>
+          <li>Borging: eigenaarschap, versiebeheer, onderhoudsritme.</li>
+        </ul>
+        <p class="pill" aria-label="Prijs schoolbreed"><span class="price">vanaf €5.995</span> <span class="muted">indicatie</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KENNISMAKING -->
+  <section id="kennismaking" class="section dark">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Kennismaking aanvragen</h2>
+        <p class="muted">Stuur een mail, dan plannen we een korte kennismaking. Vrijblijvend.</p>
+        <p class="small muted" style="margin-bottom:10px;">Handig om mee te sturen:</p>
+        <ul>
+          <li>Schooltype en leerjaarband (globaal).</li>
+          <li>Teamgrootte van de sectie.</li>
+          <li>Grootste pijnpunt (1 zin).</li>
+          <li>Doel (kies 1): sneller werken / consistentie / onboarding / rust in toetsweken.</li>
+          <li>Gewenste vorm: online kennismaking of incompany gesprek.</li>
+          <li>Wanneer (globaal) je dit zou willen doen.</li>
+        </ul>
+        <div class="btns">
+          <a class="btn primary" href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Standaardwerk">Mail voor de kennismaking</a>
+        </div>
+      </div>
+
+      <div class="media" aria-label="Beeld placeholder contact">
+        <div>
+          <strong>Beeld (contact / vertrouwen)</strong><br>
+          Rustig, professioneel beeld (bureau, notities, laptop).<br>
+          Bestand: <span class="small">assets/img/contact.jpg</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container small muted">
+      KlasLab – Standaardwerk (v0.1)
+    </div>
+  </footer>
+
+</body>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>
