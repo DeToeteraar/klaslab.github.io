@@ -10,13 +10,13 @@
 
   <style>
     :root{
-      --kl-anth:#1f2937;        /* antraciet */
-      --kl-cream:#f6f1e7;       /* crème */
-      --kl-paper:#ffffff;       /* kaart/wit */
-      --kl-green:#16C3A5;       /* KlasLab accent */
+      --kl-primary:#2F3E5C;     /* KlasLab donkerblauw */
+      --kl-accent:#16C3A5;      /* KlasLab groen */
+      --kl-bg:#F8FAFC;          /* achtergrond */
+      --kl-paper:#FFFFFF;       /* kaart/wit */
+      --kl-border:#E5E7EB;      /* borders */
       --kl-text:#0f172a;
       --kl-muted:#475569;
-      --kl-border:rgba(15,23,42,.12);
       --kl-shadow:0 10px 24px rgba(15,23,42,.08);
       --kl-radius:14px;
       --kl-nav-pad-y: .95rem;
@@ -28,25 +28,30 @@
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       line-height:1.6;
       color:var(--kl-text);
-      background:var(--kl-cream);
+      background:var(--kl-bg);
     }
 
     /* Better anchor jumps (future-proof if navbar becomes sticky later) */
     section{scroll-margin-top:var(--kl-scroll-offset)}
 
-    /* Navbar (light, like requested) */
+    /* Navbar (dark, CarperLab-like) */
     .kl-navbar{
-      background:var(--kl-paper) !important;
-      border-bottom:1px solid var(--kl-border);
+      background:#111417 !important;
+      border-bottom:1px solid rgba(255,255,255,.12);
       padding-top:var(--kl-nav-pad-y);
       padding-bottom:var(--kl-nav-pad-y);
     }
+.kl-navbar-divider{
+  height:10px;
+  background:var(--kl-bg);
+}
     .kl-navbar .nav-link{
-      color:var(--kl-text);
+      color:rgba(248,250,252,.92);
       font-weight:600;
     }
-    .kl-navbar .nav-link:hover{color:var(--kl-green)}
-    .navbar-toggler{border-color:var(--kl-border)}
+    .kl-navbar .nav-link:hover{color:var(--kl-accent)}
+    .navbar-toggler{border-color:rgba(255,255,255,.25)}
+    .navbar-toggler-icon{filter:invert(1)}
 
     /* Logo sizing (requested larger) */
     .navbar-brand img{height:70px;width:auto;display:block}
@@ -57,8 +62,8 @@
     /* Accent button (Bootstrap-friendly) */
     .btn-kl-accent{
       --bs-btn-color:#0f172a;
-      --bs-btn-bg:var(--kl-green);
-      --bs-btn-border-color:var(--kl-green);
+      --bs-btn-bg:var(--kl-accent);
+      --bs-btn-border-color:var(--kl-accent);
       --bs-btn-hover-color:#0f172a;
       --bs-btn-hover-bg:#12b49a;
       --bs-btn-hover-border-color:#12b49a;
@@ -69,9 +74,17 @@
 
     /* Sections */
     .kl-section{padding:56px 0}
-    .kl-section--light{background:var(--kl-cream)}
-    .kl-section--dark{background:var(--kl-anth);color:#f8fafc}
-    .kl-section--dark .text-muted{color:rgba(248,250,252,.72)!important}
+    .kl-section--light{background:var(--kl-bg)}
+    .kl-section--dark{background:var(--kl-primary);color:#f8fafc}
+
+    /* Muted text on dark backgrounds (hero etc.) */
+    .kl-section--dark .text-muted{color:rgba(248,250,252,.78)!important}
+
+    /* Cards inside dark sections must be readable (dark text on white card) */
+    .kl-section--dark .kl-card{color:var(--kl-text)}
+    .kl-section--dark .kl-card .text-muted{color:var(--kl-muted)!important}
+
+    /* Muted text on light backgrounds */
     .kl-section--light .text-muted{color:var(--kl-muted)!important}
 
     /* Cards (avoid conflict with Bootstrap .card) */
@@ -130,6 +143,7 @@
       </div>
     </div>
   </nav>
+  <div class="kl-navbar-divider" aria-hidden="true"></div>
 
   <!-- HERO -->
   <section id="hero" class="kl-section kl-section--dark">
