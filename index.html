@@ -18,7 +18,7 @@
       --kl-text:#0f172a;
       --kl-muted:#475569;
       --kl-shadow:0 10px 24px rgba(15,23,42,.08);
-      --kl-radius:14px;
+      --kl-radius:6px;
       --kl-nav-pad-y: .95rem;
       --kl-scroll-offset: 96px;
     }
@@ -53,6 +53,17 @@
     .navbar-toggler{border-color:rgba(255,255,255,.25)}
     .navbar-toggler-icon{filter:invert(1)}
 
+    /* Mobile menu: keep links readable when the navbar collapses */
+    @media (max-width: 991.98px) {
+      .navbar .navbar-collapse {
+        background: rgba(17, 20, 23, 0.96);
+        border-radius: var(--kl-radius);
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 12px 30px rgba(17, 20, 23, 0.25);
+      }
+    }
+
     /* Logo sizing (requested larger) */
     .navbar-brand img{height:70px;width:auto;display:block}
     @media (min-width: 992px){
@@ -67,9 +78,16 @@
       --bs-btn-hover-color:#0f172a;
       --bs-btn-hover-bg:#12b49a;
       --bs-btn-hover-border-color:#12b49a;
-      border-radius:14px;
-      font-weight:800;
+      border-radius:var(--kl-radius);
       box-shadow:0 8px 20px rgba(17, 20, 23, 0.12);
+    }
+
+    /* CTA button typography: align with KarperLab */
+    .btn-kl-accent,
+    .kl-offer .btn,
+    .btn-light {
+      font-weight:400;
+      font-size:1rem;
     }
 
     /* Sections */
@@ -94,22 +112,34 @@
       border-radius:var(--kl-radius);
       padding:18px;
       box-shadow:var(--kl-shadow);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .kl-card:hover,
+    .kl-card:focus-within {
+      transform: translateY(-2px);
+      box-shadow:0 18px 40px rgba(15,23,42,.12);
     }
 
     /* Offer card (CarperLab-like block) */
     .kl-offer{
       background:var(--kl-paper);
       border:1px solid var(--kl-border);
-      border-radius:16px;
+      border-radius:var(--kl-radius);
       padding:18px;
       box-shadow:0 12px 28px rgba(15,23,42,.12);
       color:var(--kl-text);
       max-width:380px;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .kl-offer:hover,
+    .kl-offer:focus-within {
+      transform: translateY(-2px);
+      box-shadow:0 22px 48px rgba(15,23,42,.14);
     }
     .kl-offer__title{font-weight:800;font-size:1.1rem;margin-bottom:4px}
     .kl-offer__meta{color:var(--kl-muted);font-size:.95rem;margin-bottom:10px}
-    .kl-offer__price{font-size:1.8rem;font-weight:900;margin:10px 0 8px}
-    .kl-offer__sub{color:var(--kl-muted);font-size:.9rem;font-weight:700}
+    .kl-offer__price{margin:10px 0 8px}    /* Zorg voor ruimte tussen prijs en CTA-button; mb-0 van Bootstrap overschrijft marges op de prijs */
+    .kl-offer .btn{margin-top:18px}    .kl-offer__sub{color:var(--kl-muted);font-size:.9rem;font-weight:700}
     .kl-offer__foot{font-size:.85rem;color:var(--kl-muted)}
 
     footer{
@@ -158,7 +188,7 @@
             en praktische sjablonen voor lessen en toetsen. Het resultaat is één gedeelde werkwijze die tijd bespaart en samenwerking versterkt.
           </p>
 
-          <a class="btn btn-light fw-bold" href="#kennismaking" style="border-radius:14px;">Kennismaking aanvragen</a>
+          <a class="btn btn-light" href="#kennismaking" style="border-radius:var(--kl-radius);">Kennismaking aanvragen</a>
         </div>
 
         <div class="col-12 col-lg-5 d-flex justify-content-lg-end">
@@ -167,7 +197,7 @@
 
             <p class="mb-2" style="color: var(--kl-muted);">Procesoverzicht, SOP’s, templates en duidelijke afspraken. Eén gedeelde werkwijze voor de hele sectie.</p>
 
-            <div class="kl-offer__price">€1.295 <span class="kl-offer__sub">introductieprijs</span></div>
+            <div class="h3 mb-0 kl-offer__price">€1.295 <span class="kl-offer__sub">introductieprijs</span></div>
 
             <a class="btn btn-kl-accent w-100" href="#kennismaking">Kennismaking aanvragen</a>
 
@@ -254,7 +284,7 @@
 
             <a
               class="btn btn-kl-accent"
-              style="border-radius:14px;font-weight:800;"
+              style="border-radius:var(--kl-radius);"
               href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Teamworkshop%20Standaardwerk&body=Hoi%2C%0A%0AIk%20wil%20graag%20een%20kennismaking%20aanvragen%20voor%20de%20Teamworkshop%20Standaardwerk.%0A%0ASchool%20(plaats%2Fregio)%3A%20%5Bvul%20in%5D%0ASchooltype%20%2B%20leerjaarband%3A%20%5Bvul%20in%5D%0ATeamgrootte%20vaksectie%3A%20%5Bvul%20in%5D%0AGrootste%20pijnpunt%20(1%20zin)%3A%20%5Bvul%20in%5D%0AHoofddoel%20(kies%201)%3A%20sneller%20werken%20%2F%20consistentie%20%2F%20onboarding%20%2F%20rust%20in%20toetsweken%0APlanning%20(periode)%3A%20%5Bvul%20in%5D%0AVoorkeur%20vorm%3A%20online%20kennismaking%20%2F%20incompany%0A%0AAlvast%20dank%21"
             >Mail voor de kennismaking</a>
 
