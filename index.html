@@ -92,9 +92,23 @@
     }
 
     /* Logo sizing (requested larger) */
-    .navbar-brand img{height:40px;width:auto;display:block}
+    .navbar-brand img{
+      height:40px;
+      width:auto;
+      display:block;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      will-change: transform;
+    }
     @media (min-width: 992px){
       .navbar-brand img{height:64px}
+    }
+
+    /* Make logo gently lift on hover/focus like the cards */
+    .navbar-brand:hover img,
+    .navbar-brand:focus img,
+    .navbar-brand:focus-visible img {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(17,20,23,.12);
     }
 
     /* Accent button (Bootstrap-friendly) */
@@ -312,12 +326,6 @@
             <h2 class="h5 fw-bold mb-2">Kennismaking aanvragen</h2>
             <p class="text-muted mb-3">Laagdrempelig: stuur een korte mail met drie dingen. Dan plannen we een kennismaking.</p>
 
-            <a
-              class="btn btn-kl-accent"
-              style="border-radius:var(--kl-radius);"
-              href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Teamworkshop%20Standaardwerk&body=Hoi%2C%0A%0AIk%20wil%20graag%20een%20kennismaking%20aanvragen%20voor%20de%20Teamworkshop%20Standaardwerk.%0A%0A1)%20School%20(%2F%20plaats%20of%20regio)%3A%20%5Bvul%20in%5D%0A2)%20Teamgrootte%20vaksectie%3A%20%5Bvul%20in%5D%0A3)%20Doel%20%2B%20waarom%20(2%E2%80%933%20zinnen)%3A%20%5Bvul%20in%5D%0A%0AAlvast%20dank%21"
-            >Mail voor de kennismaking</a>
-
             <div class="mt-3">
               <div class="text-muted small mb-1"><strong>Stuur dit mee:</strong></div>
               <ul class="small mb-0">
@@ -325,6 +333,12 @@
                 <li>Teamgrootte van de vaksectie</li>
                 <li>Wat jullie willen bereiken en waarom (2–3 zinnen)</li>
               </ul>
+
+              <a
+                class="btn btn-kl-accent mt-3"
+                style="border-radius:var(--kl-radius);"
+                href="mailto:info@klaslab.nl?subject=Kennismaking%20KlasLab%20%E2%80%93%20Teamworkshop%20Standaardwerk&body=Hoi%2C%0A%0AIk%20wil%20graag%20een%20kennismaking%20aanvragen%20voor%20de%20Teamworkshop%20Standaardwerk.%0A%0A1)%20School%20(%2F%20plaats%20of%20regio)%3A%20%5Bvul%20in%5D%0A2)%20Teamgrootte%20vaksectie%3A%20%5Bvul%20in%5D%0A3)%20Doel%20%2B%20waarom%20(2%E2%80%933%20zinnen)%3A%20%5Bvul%20in%5D%0A%0AAlvast%20dank%21"
+              >Mail voor de kennismaking</a>
             </div>
 
             <p class="text-muted small mb-0" style="margin-top:10px;">Geen documenten nodig. Dit is genoeg om te starten.</p>
