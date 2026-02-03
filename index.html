@@ -39,7 +39,7 @@
       --kl-radius: 18px;
       --kl-shadow-sm: 0 10px 22px rgba(17, 20, 23, 0.10);
       --kl-shadow-md: 0 18px 40px rgba(17, 20, 23, 0.12);
-      --kl-hero-bg: linear-gradient(135deg, rgba(31, 36, 40, 0.96), rgba(17, 20, 23, 0.92));
+      --kl-hero-overlay: linear-gradient(135deg, rgba(31, 36, 40, 0.96), rgba(17, 20, 23, 0.92));
     }
 
     html { scroll-behavior: smooth; }
@@ -160,7 +160,8 @@
     .hero {
       position: relative;
       overflow: hidden;
-      background: var(--kl-hero-bg);
+      background-image: var(--kl-hero-overlay), url('assets/img/photos/hero-bg.jpg');
+      background-color: #111417;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -231,6 +232,40 @@
 
     .kl-shadow { box-shadow: 0 14px 34px rgba(17, 20, 23, 0.10); }
 
+    /* Photos */
+    .kl-photo{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit:cover;
+      filter:saturate(0.95) contrast(1.02);
+    }
+    .kl-photo-top{
+      object-position:center 1%;
+    }
+    .kl-photo-workshop{
+      object-position:center 45%;
+    }
+    .kl-photo-kennismaking{
+      object-position:center 20%;
+    }
+    .kl-photo-card{
+      overflow:hidden;
+      border-radius: var(--kl-radius);
+      border: 1px solid var(--kl-border);
+      box-shadow: var(--kl-shadow-sm);
+      background: var(--kl-surface);
+    }
+
+    .kl-photo-half{
+      aspect-ratio: 21 / 4.5;
+    }
+    @media (max-width: 575.98px) {
+      .kl-photo-half{
+        aspect-ratio: 16 / 4.5;
+      }
+    }
+
     /* Full-width section bands */
     .kl-band { padding: 3.25rem 0; }
     @media (min-width: 992px) {
@@ -238,7 +273,19 @@
     }
 
     .kl-band--light { background: #FFFFFF; }
-    .kl-band--cream { background: var(--kl-bg); }
+    .kl-band--cream { background: var(--kl-bg); position: relative; }
+    .kl-band--cream::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:url('assets/img/photos/texture-bg.jpg');
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      opacity:0.08;
+      pointer-events:none;
+    }
+    .kl-band--cream > .container{ position:relative; z-index:1; }
     .kl-band--dark {
       background: var(--kl-anth-900);
       color: rgba(246,247,245,0.92);
@@ -420,7 +467,10 @@
           </div>
           <div class="col-md-6">
             <div class="h-100 p-4 border rounded kl-card">
-              <h3 class="h6">Wat je in de praktijk merkt</h3>
+              <div class="d-flex align-items-center justify-content-between gap-3">
+                <h3 class="h6 mb-0">Wat je in de praktijk merkt</h3>
+                <img src="assets/img/photos/pendulum_blue.svg" alt="" aria-hidden="true" style="height:26px;width:auto;opacity:.85;">
+              </div>
               <p class="mb-3 text-muted">Minder ruis en minder opnieuw uitvinden.</p>
               <ul class="mb-0">
                 <li>Minder afstemming doordat basiskeuzes vooraf vastliggen.</li>
@@ -441,6 +491,9 @@
     <div class="container">
       <div class="kl-panel">
         <h2 class="h4 mb-3">Werkwijze</h2>
+        <div class="kl-photo-card mb-3">
+          <img class="kl-photo kl-photo-half kl-photo-workshop" src="assets/img/photos/workshop-notes.jpg" alt="Werkvorm: afspraken en standaarden vastleggen in het team." loading="lazy">
+        </div>
         <div class="row g-3">
           <div class="col-md-4">
             <div class="h-100 p-4 border rounded kl-card">
@@ -466,11 +519,14 @@
     </div>
   </section>
 
-  <section id="kennismaking" class="kl-band kl-band--dark" style="background: var(--kl-hero-bg);">
+  <section id="kennismaking" class="kl-band kl-band--dark" style="background: var(--kl-hero-overlay);">
     <div class="container">
       <div class="kl-panel">
         <h2 class="h4 mb-2">Kennismaking aanvragen</h2>
         <p class="mb-3">Stuur een korte mail met drie dingen. Dan plannen we een kennismaking.</p>
+        <div class="kl-photo-card mb-3">
+          <img class="kl-photo kl-photo-half kl-photo-kennismaking" src="assets/img/photos/notebook-write.jpg" alt="Start laagdrempelig: korte kennismaking en focus bepalen." loading="lazy">
+        </div>
 
         <ul class="mb-3 text-muted">
           <li>School + plaats/regio</li>
@@ -494,8 +550,8 @@
     <div class="container">
       <div class="kl-panel">
         <h2 class="h4 mb-2">Privacy</h2>
-        <p class="mb-2">Deze site gebruikt geen tracking en plaatst geen marketingcookies.</p>
-        <p class="mb-2">Als je op “Mail voor de kennismaking” klikt, opent je e-mailapp met een ingevuld bericht. Jij beslist of je het verstuurt. Je gegevens worden alleen gebruikt om op je aanvraag te reageren.</p>
+        <p class="mb-2">GA4, geanonimiseerd (IP). Geen marketingcookies.</p>
+        <p class="mb-2">Mail-link opent je e-mailapp. Je mail wordt alleen gebruikt om te reageren.</p>
         <p class="mb-0 text-muted small">Vragen? Mail naar <a href="mailto:info@klaslab.nl">info@klaslab.nl</a>.</p>
       </div>
     </div>
