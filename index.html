@@ -178,7 +178,15 @@
       background-position: center;
       background-repeat: no-repeat;
       color: #F6F7F5;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding-top: calc(clamp(2rem, 6vh, 5rem) + var(--kl-nav-divider-h));
+      padding-bottom: clamp(2rem, 6vh, 5rem);
     }
+
+    .hero > .container { width: 100%; }
 
     .hero .text-muted {
       color: rgba(246,247,245,0.70) !important;
@@ -428,7 +436,7 @@
   </div>
 </nav>
 
-<header id="hero" class="hero py-5" style="padding-top: calc(3rem + var(--kl-nav-divider-h));">
+<header id="hero" class="hero">
   <div class="container">
     <div class="row align-items-center g-4">
       <div class="col-lg-8 hero-copy">
